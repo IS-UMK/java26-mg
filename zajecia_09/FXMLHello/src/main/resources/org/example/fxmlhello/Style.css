@@ -1,0 +1,20 @@
+.root {
+    -fx-background-color: lightblue;
+}
+
+Button {
+    -fx-background-color: linear-gradient(to right, #ff7e5f, #feb47b);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 8px;
+}
+
+#loginText
+{
+  -fx-font-family: "Arial Black";
+}
+
+Button:hover{
+    -fx-background-color: yellow;
+}
