@@ -1,11 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javalin Demo - Trasy API</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<main>
+    <section class="card">
+        <h1>Demo tras aplikacji Javalin</h1>
+        <p>Poniżej znajdują się endpointy zdefiniowane w pliku <code>HelloJavalin.java</code> wraz z krótkim opisem działania.</p>
 
-Hello from static index.html
+        <table aria-label="Lista tras API">
+            <thead>
+            <tr>
+                <th>Metoda</th>
+                <th>Adres</th>
+                <th>Opis</th>
+                <th>Demo</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><span class="method get">GET</span></td>
+                <td><code>/hello</code></td>
+                <td>Zwraca prostą odpowiedź tekstową <code>Hello World!</code>.</td>
+                <td><a class="demo-link" href="/hello" target="_blank" rel="noopener noreferrer">Otwórz</a></td>
+            </tr>
+            <tr>
+                <td><span class="method get">GET</span></td>
+                <td><code>/headers</code></td>
+                <td>Pokazuje nagłówek <code>User-Agent</code>; dodatkowo wypisuje wszystkie nagłówki w konsoli serwera.</td>
+                <td><a class="demo-link" href="/headers" target="_blank" rel="noopener noreferrer">Otwórz</a></td>
+            </tr>
+            <tr>
+                <td><span class="method get">GET</span></td>
+                <td><code>/user</code></td>
+                <td>Zwraca przykładowy obiekt użytkownika w formacie JSON.</td>
+                <td><a class="demo-link" href="/user" target="_blank" rel="noopener noreferrer">Otwórz</a></td>
+            </tr>
+            <tr>
+                <td><span class="method get">GET</span></td>
+                <td><code>/boom</code></td>
+                <td>Celowo rzuca wyjątek, aby pokazać obsługę błędów (HTTP 500).</td>
+                <td><a class="demo-link" href="/boom" target="_blank" rel="noopener noreferrer">Otwórz</a></td>
+            </tr>
+            <tr>
+                <td><span class="method post">POST</span></td>
+                <td><code>/echo</code></td>
+                <td>Odczytuje body żądania i odsyła je jako <code>Echo: ...</code>.</td>
+                <td><a class="demo-link" href="#post-echo-demo">Zobacz test POST</a></td>
+            </tr>
+            <tr>
+                <td><span class="method get">GET</span></td>
+                <td><code>/users/{id}/posts/{postId}</code></td>
+                <td>Przykład parametrów ścieżki; zwraca <code>id</code> użytkownika i <code>postId</code> (z walidacją typu liczbowego).</td>
+                <td><a class="demo-link" href="/users/7/posts/15" target="_blank" rel="noopener noreferrer">Otwórz przykład</a></td>
+            </tr>
+            <tr>
+                <td><span class="method get">GET</span></td>
+                <td><code>/search?q=...&amp;limit=...</code></td>
+                <td>Przykład parametrów zapytania; <code>limit</code> domyślnie ma wartość <code>42</code>.</td>
+                <td><a class="demo-link" href="/search?q=javalin&amp;limit=5" target="_blank" rel="noopener noreferrer">Otwórz przykład</a></td>
+            </tr>
+            <tr>
+                <td><span class="method get">GET</span></td>
+                <td><code>/admin/users</code></td>
+                <td>Trasa konkretna dla sekcji administracyjnej (użytkownicy).</td>
+                <td><a class="demo-link" href="/admin/users" target="_blank" rel="noopener noreferrer">Otwórz</a></td>
+            </tr>
+            <tr>
+                <td><span class="method get">GET</span></td>
+                <td><code>/admin/*</code></td>
+                <td>Trasa ogólna (wildcard) dla pozostałych adresów zaczynających się od <code>/admin/</code>.</td>
+                <td><a class="demo-link" href="/admin/anything" target="_blank" rel="noopener noreferrer">Otwórz przykład</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <section id="post-echo-demo" class="post-demo">
+            <h2>Jak przetestować POST /echo</h2>
+            <p>Najprościej: użyj formularza poniżej i wyślij dane bezpośrednio z przeglądarki.</p>
+            <form action="/echo" method="post" target="_blank">
+                <label for="echoBody">Treść wiadomości:</label>
+                <input id="echoBody" name="echoBody" type="text" value="To jest test POST" required>
+                <button type="submit">Wyślij POST</button>
+            </form>
+            <p>Dla terminala możesz użyć także <code>curl</code>:</p>
+            <pre><code>curl -X POST http://localhost:8080/echo -d "To jest test POST"</code></pre>
+        </section>
+
+    </section>
+</main>
 </body>
 </html>
