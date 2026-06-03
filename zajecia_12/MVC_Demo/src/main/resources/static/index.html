@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Spring Boot MVC</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Demo Spring Boot MVC</h1>
+    <p>Wybierz endpoint, aby zobaczyć działanie kontrolera i widoków Thymeleaf.</p>
+
+    <nav>
+        <a href="/hello">/hello</a>
+        <a href="/hello?name=Marek">/hello?name=Marek</a>
+        <a href="/user">/user</a>
+        <a href="/form">/form</a>
+    </nav>
+
+    <section class="flow-diagram">
+        <h2>Prosty diagram przepływu</h2>
+        <pre>
+index (/)
+  |
+  +--> /hello?name=...
+  |
+  +--> /user
+  |
+  +--> /form --(POST /submit)--> /result
+                                |
+                                +--> /hello?name={user.name}
+        </pre>
+    </section>
+</div>
+
+</body>
+</html>

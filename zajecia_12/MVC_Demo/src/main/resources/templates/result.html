@@ -2,17 +2,20 @@
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Użytkownik</title>
+    <title>Wynik</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
-<h1>Welcome, <span th:text="${user.getName()}">User</span>!</h1>
+<h1>Wynik</h1>
+
+<p>Witaj, <span th:text="${user.name}">Użytkowniku</span>!</p>
 
 <nav>
     <a th:href="@{/}">Strona główna</a>
-    <a th:href="@{/hello(name=${user.getName()})}">/hello z imieniem</a>
-    <a th:href="@{/form}">/form</a>
+    <a th:href="@{/form}">Ponownie formularz</a>
+    <a th:href="@{/hello(name=${user.name})}">Przejdź do /hello z imieniem</a>
+    <a th:href="@{/user}">/user</a>
 </nav>
 </div>
 </body>

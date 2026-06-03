@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1 th:text="|Hello, ${name}!|">Hello</h1>
+
+    <nav>
+        <a th:href="@{/}">Strona główna</a>
+        <a th:href="@{/hello(name='World')}">/hello?name=World</a>
+        <a th:href="@{/hello(name='Spring')}">/hello?name=Spring</a>
+        <a th:href="@{/user}">/user</a>
+        <a th:href="@{/form}">/form</a>
+    </nav>
+</div>
+</body>
+</html>
