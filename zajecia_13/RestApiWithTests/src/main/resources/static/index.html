@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo REST API - User</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Panel demonstracyjny REST API</h1>
+    <p class="hint">Endpoint bazowy: <code>/api/users</code></p>
+
+    <div class="row">
+        <h2>GET /api/users</h2>
+        <button onclick="getAllUsers()">Pobierz wszystkich</button>
+    </div>
+
+    <div class="row">
+        <h2>GET /api/users/{id}</h2>
+        <label for="getId">id:</label>
+        <input id="getId" type="number" value="1">
+        <button onclick="getUserById()">Pobierz po id</button>
+    </div>
+
+    <div class="row">
+        <h2>POST /api/users</h2>
+        <label for="postId">id:</label>
+        <input id="postId" type="number" value="4">
+        <label for="postName">name:</label>
+        <input id="postName" type="text" value="Nowy">
+        <label for="postEmail">email:</label>
+        <input id="postEmail" type="email" value="nowy@example.com">
+        <button onclick="createUser()">Dodaj użytkownika</button>
+    </div>
+
+    <div class="row">
+        <h2>DELETE /api/users/{id}</h2>
+        <label for="deleteId">id:</label>
+        <input id="deleteId" type="number" value="4">
+        <button onclick="deleteUser()">Usuń użytkownika</button>
+    </div>
+
+    <h2>Wynik</h2>
+    <pre id="result">Tutaj pojawi się odpowiedź serwera.</pre>
+</div>
+
+<script>
+    async function showResponse(response) {
+        const text = await response.text();
+        const resultBox = document.getElementById("result");
+
+        let parsedBody = text;
+        try {
+            parsedBody = text ? JSON.parse(text) : null;
+        } catch (e) {
+            // Keep plain text body for non-JSON responses.
+        }
+
+        const output = {
+            status: response.status,
+            statusText: response.statusText,
+            body: parsedBody
+        };
+
+        resultBox.textContent = JSON.stringify(output, null, 2);
+    }
+
+    async function callApi(url, options) {
+        try {
+            const response = await fetch(url, options);
+            await showResponse(response);
+        } catch (error) {
+            document.getElementById("result").textContent = "Błąd połączenia: " + error;
+        }
+    }
+
+    function getAllUsers() {
+        callApi("/api/users", { method: "GET" });
+    }
+
+    function getUserById() {
+        const id = document.getElementById("getId").value;
+        callApi("/api/users/" + id, { method: "GET" });
+    }
+
+    function createUser() {
+        const payload = {
+            id: Number(document.getElementById("postId").value),
+            name: document.getElementById("postName").value,
+            email: document.getElementById("postEmail").value
+        };
+
+        callApi("/api/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+    }
+
+    function deleteUser() {
+        const id = document.getElementById("deleteId").value;
+        callApi("/api/users/" + id, { method: "DELETE" });
+    }
+</script>
+</body>
+</html>
