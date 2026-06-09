@@ -4,24 +4,24 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GlobalExceptionHandlersTest {
 
 
-    @ParameterizedTest
-    @ValueSource(ints = {1, 2, 3, -4})
-    public void testIsPositive(int number) {
-        Assertions.assertTrue(number > 0);
-    }
+    private final GlobalExceptionHandlers handler = new GlobalExceptionHandlers();
 
     @Test
-    void addTest() {
+    public void shouldReturnConflictProblemDetailForUserAlreadyExists() {
 
-        GlobalExceptionHandlers globalExceptionHandlers = new GlobalExceptionHandlers();
+        ProblemDetail result = handler.handleUserAlreadyExistsException(
+                new UserAlreadyExistsException("Pewien tekst")
+        );
 
-        int result = globalExceptionHandlers.add(1, 2);
-        assertEquals(result,3);
+        assertEquals(HttpStatus.CONFLICT.value(), result.getStatus());
+        assertEquals("Pewien tekst", result.getDetail());
     }
 }

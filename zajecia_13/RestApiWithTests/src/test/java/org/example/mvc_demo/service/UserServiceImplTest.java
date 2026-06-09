@@ -8,11 +8,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -31,5 +32,17 @@ class UserServiceImplTest {
         User result = userService.findById(1);
 
         assertThat(result.getName()).isEqualTo("Jan");
+    }
+
+    @Test
+    void finalAll_shouldReturnListFromRepository() {
+        List<User> expected = List.of(new User(1, "Anna", "anna@example.com"));
+        when(userRepository.findAll()).thenReturn(expected);
+
+        List<User> result = userService.findAll();
+        assertEquals(expected, result);
+
+        // Verify: upewniamy sie, ze metoda repozytorium została wywolana dokladnie raz
+        verify(userRepository, times(1)).findAll();
     }
 }

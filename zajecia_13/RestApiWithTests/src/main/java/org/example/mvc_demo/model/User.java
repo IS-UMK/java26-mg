@@ -11,13 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "users")
+@Table(name = "users")  // potrzebna zmiana nazwy, bo nazwa User jest zarezerwowana w bazie danych
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-   // @Column(nullable = false, unique = true)
+
+    @Column(nullable = false, unique = true)
     private String name;
     private String email;
 }

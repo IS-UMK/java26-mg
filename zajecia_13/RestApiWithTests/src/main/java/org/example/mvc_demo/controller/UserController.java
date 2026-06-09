@@ -12,14 +12,12 @@ import java.util.List;
 
 @RestController
 
-// ZMIANA: @RequestMapping("/api/") -> @RequestMapping("/api")
 @RequestMapping("/api")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    // ZMIANA: @GetMapping("/users/") -> @GetMapping("/users")
     @GetMapping("/users")
     public List<User> getAllUsers() {
 
@@ -28,10 +26,14 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable Integer id) {
-        return userService.findById(id);
+
+        var user = userService.findById(id);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found:" + id);
+        }
+        return user;
     }
 
-    // ZMIANA: @PostMapping("/users/") >  @PostMapping("/users")
     @PostMapping("/users")
     public String createUser(@RequestBody User user) {
         user.setId(null);
@@ -47,19 +49,20 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + id);
         }
         userService.deleteUser(id);
-
-        // userService.deleteUser(id);
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/users")
+    public void deleteAllUsers() {
+        userService.deleteAllUsers();
+    }
+
 
     @ExceptionHandler(NoSuchUserException.class)
-    public ProblemDetail NoSuchUserExceptionHandler(NoSuchUserException ex)
-    {
-        ProblemDetail detail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.NOT_FOUND, "User not found");
-
-        return detail;
+    public ProblemDetail handleNoSuchUserException(NoSuchUserException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setTitle("User not found (własny wyjątek)");
+        problemDetail.setDetail(ex.getMessage());
+        return problemDetail;
     }
-
-
-
 }

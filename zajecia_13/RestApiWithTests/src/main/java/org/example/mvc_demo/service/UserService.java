@@ -11,4 +11,5 @@ public interface UserService {
     void deleteUser(int id);
     void addUser(User user);
     void deleteAllUsers();
+    User findByEmail(String email);
 }
